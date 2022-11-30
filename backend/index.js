@@ -14,7 +14,7 @@ app.use(express.json())
 // app.use(bodyParser.urlencoded({extended: true}));
 
 app.use("/api/auth", require("./routes/auth"));
-// app.use("/api/notes", require("./routes/notes"));
+app.use("/api/notes", require("./routes/notes"));
 
 
 app.get("/", function (req, res) {
