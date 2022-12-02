@@ -3,124 +3,99 @@ import noteContext from "./noteContext"
 
 
 const NoteState = (props)=>{
-   const notesInitial = [
-    {
-      "_id": "638706737140a6c0cd7e40b12",
-      "user": "6385bdbc9706441e605c6cdb",
-      "title": "My title",
-      "description": "Please wake up early",
-      "tag": "personal",
-      "date": "2022-11-30T07:29:55.927Z",
-      "__v": 0
-    },
-    {
-      "_id": "63870674714d06c0cd7e40b14",
-      "user": "6385bdbc9706441e605c6cdb",
-      "title": "My title",
-      "description": "Please wake up early",
-      "tag": "personal",
-      "date": "2022-11-30T07:29:56.122Z",
-      "__v": 0
-    },
-    {
-      "_id": "6387067471c406c0cd7e40b16",
-      "user": "6385bdbc9706441e605c6cdb",
-      "title": "My title",
-      "description": "Please wake up early",
-      "tag": "personal",
-      "date": "2022-11-30T07:29:56.300Z",
-      "__v": 0
-    },
-    {
-      "_id": "63870674714v06c0cd7e40b14",
-      "user": "6385bdbc9706441e605c6cdb",
-      "title": "My title",
-      "description": "Please wake up early",
-      "tag": "personal",
-      "date": "2022-11-30T07:29:56.122Z",
-      "__v": 0
-    },
-    {
-      "_id": "63870674714h06c0cd7e40b16",
-      "user": "6385bdbc9706441e605c6cdb",
-      "title": "My title",
-      "description": "Please wake up early",
-      "tag": "personal",
-      "date": "2022-11-30T07:29:56.300Z",
-      "__v": 0
-    },
-    {
-      "_id": "638706747140j6c0cd7e40b14",
-      "user": "6385bdbc9706441e605c6cdb",
-      "title": "My title",
-      "description": "Please wake up early",
-      "tag": "personal",
-      "date": "2022-11-30T07:29:56.122Z",
-      "__v": 0
-    },
-    {
-      "_id": "6387067471406ck0cd7e40b16",
-      "user": "6385bdbc9706441e605c6cdb",
-      "title": "My title",
-      "description": "Please wake up early",
-      "tag": "personal",
-      "date": "2022-11-30T07:29:56.300Z",
-      "__v": 0
-    },
-    {
-      "_id": "6387067471406cl0cd7e40b14",
-      "user": "6385bdbc9706441e605c6cdb",
-      "title": "My title",
-      "description": "Please wake up early",
-      "tag": "personal",
-      "date": "2022-11-30T07:29:56.122Z",
-      "__v": 0
-    },
-    {
-      "_id": "6387067471406c;0cd7e40b16",
-      "user": "6385bdbc9706441e605c6cdb",
-      "title": "My title",
-      "description": "Please wake up early",
-      "tag": "personal",
-      "date": "2022-11-30T07:29:56.300Z",
-      "__v": 0
-    }
-  ]
-
-
+  const host = "http://localhost:5000"
+   const notesInitial = []
 
   const [notes, setNotes] = useState(notesInitial)
 
+  // Get all notes
+  const getNotes = async () =>{
+    const response = await fetch(`${host}/api/notes/fetchallnotes`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjM4NWJkYmM5NzA2NDQxZTYwNWM2Y2RiIn0sImlhdCI6MTY2OTcwOTI0NH0.tSdV0bAyzlecdFvCuhkZ6SK4ROdYSLKFqacCz8mTPGM"
+      }
+    });
+
+    const json = await response.json();
+    console.table(json);
+    setNotes(json);
+  }
+
+
   // Add a note
-  const addNote = (title, description, tag) =>{
+  const addNote = async (title, description, tag) =>{
     // TODO: API CALL
+    const response = await fetch(`${host}/api/notes/addnote`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjM4NWJkYmM5NzA2NDQxZTYwNWM2Y2RiIn0sImlhdCI6MTY2OTcwOTI0NH0.tSdV0bAyzlecdFvCuhkZ6SK4ROdYSLKFqacCz8mTPGM"
+      },
+      body: JSON.stringify({title, description, tag})
+    });
+
+    
+
+
+
+    
+
+
     console.log("Adding a new note");
     const note = {
-      "_id": "6387067471406c;0cd7e40b16",
-      "user": "6385bdbc9706441e605c6cdb",
+      
       "title": title,
       "description": description,
       "tag": tag,
-      "date": "2022-11-30T07:29:56.300Z",
-      "__v": 0
     };
     setNotes(notes.concat(note))
   }
 
-  const deleteNote = (id) =>{
-    // TODO: API CALL
+  const deleteNote = async (id) =>{
+    
+    const response = await fetch(`${host}/api/notes/deletenote/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjM4NWJkYmM5NzA2NDQxZTYwNWM2Y2RiIn0sImlhdCI6MTY2OTcwOTI0NH0.tSdV0bAyzlecdFvCuhkZ6SK4ROdYSLKFqacCz8mTPGM"
+      }
+    });
+
     console.log("Deleting a note");
     const newNotes = notes.filter((note) => {return note._id!==id})
     setNotes(newNotes);
 
   }
 
-  const editNote = () =>{
+  const editNote = async (id, title, description, tag) =>{
+
+    const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjM4NWJkYmM5NzA2NDQxZTYwNWM2Y2RiIn0sImlhdCI6MTY2OTcwOTI0NH0.tSdV0bAyzlecdFvCuhkZ6SK4ROdYSLKFqacCz8mTPGM"
+      },
+      body: JSON.stringify({title, description, tag})
+    });
+
+    const json = response.json();
+
+    // logic to edit in client
+    for (let index = 0; index < notes.length; index++) {
+      const element = notes[index];
+      if(element._id === id){
+        element.title = title;
+        element.description = description;
+        element.tag = tag;
+      }
+    }
 
   }
 
     return(
-        <noteContext.Provider value={{notes, addNote, deleteNote, editNote}}>
+        <noteContext.Provider value={{notes, addNote, deleteNote, editNote, getNotes}}>
             {props.children}
         </noteContext.Provider>
     )
